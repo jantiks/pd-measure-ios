@@ -21,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LEONE EYEWEAR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="72z-kg-4Eb">
-                                <rect key="frame" x="20" y="64" width="374" height="99"/>
+                                <rect key="frame" x="20" y="44" width="374" height="119"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="75"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -57,6 +57,9 @@
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="142" id="Aa9-F1-lLE"/>
+                                            </constraints>
                                         </stackView>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NmW-Bq-DUw" userLabel="Login Button">
                                             <rect key="frame" x="20" y="385" width="334" height="45"/>
@@ -109,18 +112,19 @@
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EbL-HN-HRL"/>
                             <constraint firstItem="giD-ld-Ais" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="Hsj-3s-BMz"/>
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="IFo-EM-cih"/>
-                            <constraint firstItem="giD-ld-Ais" firstAttribute="top" secondItem="72z-kg-4Eb" secondAttribute="bottom" constant="20" id="KyR-Lf-Zfy"/>
+                            <constraint firstItem="giD-ld-Ais" firstAttribute="top" secondItem="72z-kg-4Eb" secondAttribute="bottom" priority="999" constant="20" id="KyR-Lf-Zfy"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="72z-kg-4Eb" secondAttribute="trailing" constant="20" id="Slw-vZ-GbQ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="giD-ld-Ais" secondAttribute="trailing" constant="20" id="VHG-Kl-wHN"/>
                             <constraint firstAttribute="bottom" secondItem="3bj-04-Jzr" secondAttribute="bottom" id="Zvn-v6-BhO"/>
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="j7h-W2-610"/>
                             <constraint firstItem="72z-kg-4Eb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="kuK-Zd-sCh"/>
                             <constraint firstItem="giD-ld-Ais" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lVd-7w-qc6"/>
-                            <constraint firstItem="72z-kg-4Eb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="nsP-8W-cbI"/>
+                            <constraint firstItem="72z-kg-4Eb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="nsP-8W-cbI"/>
                             <constraint firstItem="giD-ld-Ais" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-20" id="s03-3i-uTP"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="blurCenterYConstraint" destination="s03-3i-uTP" id="rqN-KD-ggD"/>
                         <outlet property="blurView" destination="giD-ld-Ais" id="8lF-x5-hZm"/>
                         <outlet property="emailTF" destination="BIS-cQ-D3P" id="lBD-i3-nkM"/>
                         <outlet property="firstNameTF" destination="c9Z-bO-d6h" id="QiM-8D-nBE"/>

@@ -14,6 +14,7 @@
 		A030D8DA26FA006400C01C84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A030D8D926FA006400C01C84 /* Assets.xcassets */; };
 		A030D8DD26FA006400C01C84 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A030D8DB26FA006400C01C84 /* LaunchScreen.storyboard */; };
 		A0F8861B270081E500FE0FC0 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */; };
+		A0F8861E2700CD9B00FE0FC0 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861D2700CD9B00FE0FC0 /* Email.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A030D8DC26FA006400C01C84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A030D8DE26FA006400C01C84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		A0F8861D2700CD9B00FE0FC0 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +60,7 @@
 		A030D8CF26FA006200C01C84 /* pd-measurer-ios */ = {
 			isa = PBXGroup;
 			children = (
+				A0F8861C2700CD9000FE0FC0 /* Models */,
 				A0F88619270081D300FE0FC0 /* Extensions */,
 				A0F8861827007CC000FE0FC0 /* Login */,
 				A0F8861727007CA500FE0FC0 /* Supproting Files */,
@@ -92,6 +95,14 @@
 				A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A0F8861C2700CD9000FE0FC0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				A0F8861D2700CD9B00FE0FC0 /* Email.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -165,6 +176,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A0F8861B270081E500FE0FC0 /* UIViewControllerExtension.swift in Sources */,
+				A0F8861E2700CD9B00FE0FC0 /* Email.swift in Sources */,
 				A030D8D526FA006200C01C84 /* LoginViewController.swift in Sources */,
 				A030D8D126FA006200C01C84 /* AppDelegate.swift in Sources */,
 				A030D8D326FA006200C01C84 /* SceneDelegate.swift in Sources */,

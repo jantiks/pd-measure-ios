@@ -17,6 +17,7 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var lastNameTF: UITextField!
     @IBOutlet private weak var emailTF: UITextField!
     @IBOutlet private weak var wrongLabel: UILabel!
+    @IBOutlet weak var blurCenterYConstraint: NSLayoutConstraint!
     
     private let offsetWhenKeyboardIsShowed: CGFloat = 200
     private let loginButtonDistanceToBlurView: CGFloat = 70
@@ -29,17 +30,23 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("worked")
+
         initUi()
         initKeyboardObservers()
         setDelegates()
         hideKeyboardOnBackgroundTouched()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        view.endEditing(true)
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func getEmailBody() -> String? {
+        if !textFieldsAreEmpty() {
+            // text fields are not empty , so that the texts can be unwraped implictly.
+            return Email(firstName: firstNameTF.text!, lastName: lastNameTF.text!, emailAddress: emailTF.text!).getEmailBody()
+        }
+        return nil
     }
     
     private func initKeyboardObservers() {
@@ -81,15 +88,12 @@ class LoginViewController: UIViewController {
             let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
             let keyboardEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
-        
+
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0
-        if !keyboardIsShowing {
-            startingBlurViewOrigin = blurView.frame.origin
-        }
         
-        if keyboardEndFrame.height > blurView.frame.minY + loginButtonDistanceToBlurView + bottomPadding && !keyboardIsShowing {
-            blurView.frame.origin.y = blurView.frame.minY + bottomPadding + (loginButtonDistanceToBlurView * 3) - keyboardEndFrame.height
+        if keyboardEndFrame.height > blurView.frame.origin.y + bottomPadding + loginButtonDistanceToBlurView && !keyboardIsShowing {
+            blurCenterYConstraint.constant = blurView.frame.origin.y - bottomPadding + loginButtonDistanceToBlurView - keyboardEndFrame.height
         }
         
         UIView.animate(withDuration: animationDuration) { [weak self] in
@@ -105,9 +109,7 @@ class LoginViewController: UIViewController {
             let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
         else { return }
 
-        if let origin = startingBlurViewOrigin {
-            blurView.frame.origin.y = origin.y
-        }
+        blurCenterYConstraint.constant = -20
         
         UIView.animate(withDuration: animationDuration) { [weak self] in
             self?.view.layoutIfNeeded()
@@ -137,23 +139,23 @@ extension LoginViewController: UITextFieldDelegate {
 
 extension LoginViewController: MFMailComposeViewControllerDelegate {
     func sendEmail() {
+        guard let emailBody = getEmailBody() else { return }
+        
         if MFMailComposeViewController.canSendMail() {
-            let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = self
-            mail.setToRecipients(["tigran.arsenyan.2015@gmail.com"])
-            mail.setMessageBody("<p>You're so awesome!</p>", isHTML: true)
+            let mailVC = MFMailComposeViewController()
+            mailVC.mailComposeDelegate = self
+            mailVC.setToRecipients(["tigran.arsenyan.2015@gmail.com"])
+            mailVC.setSubject("PD MEASUREMENTS")
+            mailVC.setMessageBody(emailBody, isHTML: true)
             
-            present(mail, animated: true)
+            present(mailVC, animated: true)
         } else {
-            // show failure alert
             showEmailFailureAlert()
         }
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true) { [weak self] in
-            self?.showEmailFailureAlert()
-        }
+        controller.dismiss(animated: true)
     }
     
     private func showEmailFailureAlert() {
