@@ -19,7 +19,9 @@ class LoginViewController: UIViewController {
     @IBOutlet private weak var wrongLabel: UILabel!
     
     private let offsetWhenKeyboardIsShowed: CGFloat = 200
+    private let loginButtonDistanceToBlurView: CGFloat = 70
     private var startingBlurViewOrigin: CGPoint? = nil
+    private var keyboardIsShowing = false
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.portrait
@@ -32,6 +34,12 @@ class LoginViewController: UIViewController {
         initKeyboardObservers()
         setDelegates()
         hideKeyboardOnBackgroundTouched()
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        view.endEditing(true)
     }
     
     private func initKeyboardObservers() {
@@ -73,16 +81,22 @@ class LoginViewController: UIViewController {
             let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
             let keyboardEndFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
         else { return }
-        startingBlurViewOrigin = blurView.frame.origin
-
+        
         let window = UIApplication.shared.keyWindow
-        let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0 // This is the key
-        if keyboardEndFrame.height > blurView.frame.minY + offsetWhenKeyboardIsShowed {
-            blurView.frame.origin.y = blurView.frame.minY + offsetWhenKeyboardIsShowed + bottomPadding - keyboardEndFrame.height
+        let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0
+        if !keyboardIsShowing {
+            startingBlurViewOrigin = blurView.frame.origin
         }
+        
+        if keyboardEndFrame.height > blurView.frame.minY + loginButtonDistanceToBlurView + bottomPadding && !keyboardIsShowing {
+            blurView.frame.origin.y = blurView.frame.minY + bottomPadding + (loginButtonDistanceToBlurView * 3) - keyboardEndFrame.height
+        }
+        
         UIView.animate(withDuration: animationDuration) { [weak self] in
             self?.view.layoutIfNeeded()
         }
+        
+        keyboardIsShowing = true
     }
     
     @objc private func keyboardWillHide(notification: Notification) {
@@ -98,6 +112,8 @@ class LoginViewController: UIViewController {
         UIView.animate(withDuration: animationDuration) { [weak self] in
             self?.view.layoutIfNeeded()
         }
+        
+        keyboardIsShowing = false
     }
     
     
@@ -114,6 +130,7 @@ class LoginViewController: UIViewController {
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
         return true
     }
 }
@@ -129,10 +146,20 @@ extension LoginViewController: MFMailComposeViewControllerDelegate {
             present(mail, animated: true)
         } else {
             // show failure alert
+            showEmailFailureAlert()
         }
     }
     
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
+        controller.dismiss(animated: true) { [weak self] in
+            self?.showEmailFailureAlert()
+        }
+    }
+    
+    private func showEmailFailureAlert() {
+        let ac = UIAlertController(title: "Email Error", message: "Couldn't send email message", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
     }
 }
