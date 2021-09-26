@@ -20,8 +20,14 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBgImage" translatesAutoresizingMaskIntoConstraints="NO" id="3bj-04-Jzr">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="giD-ld-Ais">
-                                <rect key="frame" x="20" y="203" width="374" height="500"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LEONE EYEWEAR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="25" translatesAutoresizingMaskIntoConstraints="NO" id="72z-kg-4Eb">
+                                <rect key="frame" x="20" y="64" width="374" height="99"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="75"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <visualEffectView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="giD-ld-Ais">
+                                <rect key="frame" x="20" y="183" width="374" height="500"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="oBO-xb-iBm">
                                     <rect key="frame" x="0.0" y="0.0" width="374" height="500"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -60,18 +66,30 @@
                                             </constraints>
                                             <state key="normal" title="Button"/>
                                             <buttonConfiguration key="configuration" style="plain" title="Login">
-                                                <fontDescription key="titleFontDescription" type="italicSystem" pointSize="22"/>
+                                                <fontDescription key="titleFontDescription" type="italicSystem" pointSize="23"/>
                                                 <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             </buttonConfiguration>
+                                            <connections>
+                                                <action selector="loginAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="boP-hI-E8I"/>
+                                            </connections>
                                         </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All fields should be completed" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uHa-xN-uaj">
+                                            <rect key="frame" x="20" y="122" width="334" height="16"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <color key="textColor" red="1" green="0.0077953062819999999" blue="0.0019541386379999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="uHa-xN-uaj" firstAttribute="leading" secondItem="CFN-lu-uhR" secondAttribute="leading" id="27C-Sa-PMZ"/>
                                         <constraint firstItem="mL8-fw-TRD" firstAttribute="leading" secondItem="oBO-xb-iBm" secondAttribute="leading" id="7sQ-XU-wXm"/>
                                         <constraint firstAttribute="trailing" secondItem="mL8-fw-TRD" secondAttribute="trailing" id="A0F-qI-E31"/>
                                         <constraint firstItem="NmW-Bq-DUw" firstAttribute="leading" secondItem="oBO-xb-iBm" secondAttribute="leading" constant="20" id="CF0-mT-aLN"/>
                                         <constraint firstItem="CFN-lu-uhR" firstAttribute="top" secondItem="mL8-fw-TRD" secondAttribute="bottom" constant="60" id="DaW-Vf-Dpt"/>
+                                        <constraint firstItem="uHa-xN-uaj" firstAttribute="trailing" secondItem="CFN-lu-uhR" secondAttribute="trailing" id="M0v-6F-Ubw"/>
                                         <constraint firstAttribute="trailing" secondItem="CFN-lu-uhR" secondAttribute="trailing" constant="20" id="RId-ay-EzR"/>
                                         <constraint firstItem="NmW-Bq-DUw" firstAttribute="top" secondItem="CFN-lu-uhR" secondAttribute="bottom" constant="100" id="bVW-RG-6Zu"/>
+                                        <constraint firstItem="CFN-lu-uhR" firstAttribute="top" secondItem="uHa-xN-uaj" secondAttribute="bottom" constant="5" id="beG-yw-1Ll"/>
                                         <constraint firstAttribute="trailing" secondItem="NmW-Bq-DUw" secondAttribute="trailing" constant="20" id="dIF-dh-GwC"/>
                                         <constraint firstItem="mL8-fw-TRD" firstAttribute="top" secondItem="oBO-xb-iBm" secondAttribute="top" constant="30" id="iTu-8m-9gh"/>
                                         <constraint firstItem="CFN-lu-uhR" firstAttribute="leading" secondItem="oBO-xb-iBm" secondAttribute="leading" constant="20" id="mxP-qv-G0a"/>
@@ -80,7 +98,7 @@
                                 </view>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="500" id="ONY-dF-XFX"/>
-                                    <constraint firstAttribute="width" priority="999" constant="550" id="wK3-YI-XI5"/>
+                                    <constraint firstAttribute="width" priority="999" constant="500" id="wK3-YI-XI5"/>
                                 </constraints>
                                 <blurEffect style="regular"/>
                             </visualEffectView>
@@ -91,16 +109,24 @@
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="EbL-HN-HRL"/>
                             <constraint firstItem="giD-ld-Ais" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="Hsj-3s-BMz"/>
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="IFo-EM-cih"/>
+                            <constraint firstItem="giD-ld-Ais" firstAttribute="top" secondItem="72z-kg-4Eb" secondAttribute="bottom" constant="20" id="KyR-Lf-Zfy"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="72z-kg-4Eb" secondAttribute="trailing" constant="20" id="Slw-vZ-GbQ"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="giD-ld-Ais" secondAttribute="trailing" constant="20" id="VHG-Kl-wHN"/>
                             <constraint firstAttribute="bottom" secondItem="3bj-04-Jzr" secondAttribute="bottom" id="Zvn-v6-BhO"/>
                             <constraint firstItem="3bj-04-Jzr" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="j7h-W2-610"/>
+                            <constraint firstItem="72z-kg-4Eb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="kuK-Zd-sCh"/>
                             <constraint firstItem="giD-ld-Ais" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="lVd-7w-qc6"/>
-                            <constraint firstItem="giD-ld-Ais" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" id="s03-3i-uTP"/>
+                            <constraint firstItem="72z-kg-4Eb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="20" id="nsP-8W-cbI"/>
+                            <constraint firstItem="giD-ld-Ais" firstAttribute="centerY" secondItem="6Tk-OE-BBY" secondAttribute="centerY" constant="-20" id="s03-3i-uTP"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="blurView" destination="giD-ld-Ais" id="8lF-x5-hZm"/>
-                        <outlet property="loginContentView" destination="oBO-xb-iBm" id="hsc-J3-PHH"/>
+                        <outlet property="emailTF" destination="BIS-cQ-D3P" id="lBD-i3-nkM"/>
+                        <outlet property="firstNameTF" destination="c9Z-bO-d6h" id="QiM-8D-nBE"/>
+                        <outlet property="lastNameTF" destination="5cI-if-fa0" id="iGs-ac-buh"/>
+                        <outlet property="loginButton" destination="NmW-Bq-DUw" id="LaU-Ae-4eU"/>
+                        <outlet property="wrongLabel" destination="uHa-xN-uaj" id="cTd-8t-pZY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

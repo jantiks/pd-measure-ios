@@ -12,7 +12,6 @@ class LoginViewController: UIViewController {
     
     // MARK: IBOutlets
     @IBOutlet private weak var blurView: UIVisualEffectView!
-    @IBOutlet private weak var loginContentView: UIView!
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var firstNameTF: UITextField!
     @IBOutlet private weak var lastNameTF: UITextField!
@@ -41,12 +40,11 @@ class LoginViewController: UIViewController {
     }
     
     private func initUi() {
-        loginContentView.layer.cornerRadius = 20
         blurView.layer.cornerRadius = 20
-//        loginButton.layer.cornerRadius = 10
-//        wrongLabel.isHidden = true
-//
-//        [firstNameTF, lastNameTF, emailTF].forEach({ $0?.returnKeyType = .done })
+        loginButton.layer.cornerRadius = 10
+        wrongLabel.isHidden = true
+
+        [firstNameTF, lastNameTF, emailTF].forEach({ $0?.returnKeyType = .done })
     }
     
     private func setDelegates() {
