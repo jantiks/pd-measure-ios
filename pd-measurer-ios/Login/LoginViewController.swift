@@ -11,13 +11,14 @@ import MessageUI
 class LoginViewController: UIViewController {
     
     // MARK: IBOutlets
+    @IBOutlet weak var loginContentView: UIView!
     @IBOutlet private weak var blurView: UIVisualEffectView!
     @IBOutlet private weak var loginButton: UIButton!
     @IBOutlet private weak var firstNameTF: UITextField!
     @IBOutlet private weak var lastNameTF: UITextField!
     @IBOutlet private weak var emailTF: UITextField!
     @IBOutlet private weak var wrongLabel: UILabel!
-    @IBOutlet weak var blurCenterYConstraint: NSLayoutConstraint!
+    @IBOutlet weak var loginCenterYConstraint: NSLayoutConstraint!
     
     private let offsetWhenKeyboardIsShowed: CGFloat = 200
     private let loginButtonDistanceToBlurView: CGFloat = 70
@@ -55,6 +56,7 @@ class LoginViewController: UIViewController {
     }
     
     private func initUi() {
+        loginContentView.layer.cornerRadius = 20
         blurView.layer.cornerRadius = 20
         loginButton.layer.cornerRadius = 10
         wrongLabel.isHidden = true
@@ -92,8 +94,8 @@ class LoginViewController: UIViewController {
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0.0
         
-        if keyboardEndFrame.height > blurView.frame.origin.y + bottomPadding + loginButtonDistanceToBlurView && !keyboardIsShowing {
-            blurCenterYConstraint.constant = blurView.frame.origin.y - bottomPadding + loginButtonDistanceToBlurView - keyboardEndFrame.height
+        if keyboardEndFrame.height > loginContentView.frame.origin.y + bottomPadding + loginButtonDistanceToBlurView && !keyboardIsShowing {
+            loginCenterYConstraint.constant = loginContentView.frame.origin.y - bottomPadding + loginButtonDistanceToBlurView - keyboardEndFrame.height
         }
         
         UIView.animate(withDuration: animationDuration) { [weak self] in
@@ -109,7 +111,7 @@ class LoginViewController: UIViewController {
             let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
         else { return }
 
-        blurCenterYConstraint.constant = -20
+        loginCenterYConstraint.constant = -20
         
         UIView.animate(withDuration: animationDuration) { [weak self] in
             self?.view.layoutIfNeeded()
