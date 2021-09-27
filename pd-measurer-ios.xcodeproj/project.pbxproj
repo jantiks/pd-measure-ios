@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A024E3E627024A51008E48AE /* FiraSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A024E3E327024A49008E48AE /* FiraSans-Light.ttf */; };
+		A024E3E727024A53008E48AE /* FiraSans-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A024E3E427024A49008E48AE /* FiraSans-LightItalic.ttf */; };
+		A024E3E827024A56008E48AE /* FiraSans-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A024E3E527024A4A008E48AE /* FiraSans-MediumItalic.ttf */; };
+		A024E3E927024A58008E48AE /* FiraSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A024E3E227024A49008E48AE /* FiraSans-Regular.ttf */; };
 		A030D8D126FA006200C01C84 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030D8D026FA006200C01C84 /* AppDelegate.swift */; };
 		A030D8D326FA006200C01C84 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030D8D226FA006200C01C84 /* SceneDelegate.swift */; };
 		A030D8D526FA006200C01C84 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A030D8D426FA006200C01C84 /* LoginViewController.swift */; };
@@ -18,6 +22,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A024E3E227024A49008E48AE /* FiraSans-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraSans-Regular.ttf"; sourceTree = "<group>"; };
+		A024E3E327024A49008E48AE /* FiraSans-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraSans-Light.ttf"; sourceTree = "<group>"; };
+		A024E3E427024A49008E48AE /* FiraSans-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraSans-LightItalic.ttf"; sourceTree = "<group>"; };
+		A024E3E527024A4A008E48AE /* FiraSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		A030D8CD26FA006200C01C84 /* pd-measurer-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "pd-measurer-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A030D8D026FA006200C01C84 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A030D8D226FA006200C01C84 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +49,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A024E3EA27024A5D008E48AE /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				A024E3E327024A49008E48AE /* FiraSans-Light.ttf */,
+				A024E3E427024A49008E48AE /* FiraSans-LightItalic.ttf */,
+				A024E3E527024A4A008E48AE /* FiraSans-MediumItalic.ttf */,
+				A024E3E227024A49008E48AE /* FiraSans-Regular.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
 		A030D8C426FA006200C01C84 = {
 			isa = PBXGroup;
 			children = (
@@ -73,6 +92,7 @@
 		A0F8861727007CA500FE0FC0 /* Supproting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A024E3EA27024A5D008E48AE /* Fonts */,
 				A030D8D026FA006200C01C84 /* AppDelegate.swift */,
 				A030D8D226FA006200C01C84 /* SceneDelegate.swift */,
 				A030D8D926FA006400C01C84 /* Assets.xcassets */,
@@ -162,8 +182,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A024E3E927024A58008E48AE /* FiraSans-Regular.ttf in Resources */,
 				A030D8DD26FA006400C01C84 /* LaunchScreen.storyboard in Resources */,
 				A030D8DA26FA006400C01C84 /* Assets.xcassets in Resources */,
+				A024E3E627024A51008E48AE /* FiraSans-Light.ttf in Resources */,
+				A024E3E727024A53008E48AE /* FiraSans-LightItalic.ttf in Resources */,
+				A024E3E827024A56008E48AE /* FiraSans-MediumItalic.ttf in Resources */,
 				A030D8D826FA006200C01C84 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
