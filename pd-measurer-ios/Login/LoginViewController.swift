@@ -72,6 +72,8 @@ class LoginViewController: UIViewController {
      checking if textfields are empty , if so then make the wrong label to appear
      */
     private func textFieldsAreEmpty() -> Bool {
+        return false
+        
         if firstNameTF.text?.isEmpty == true ||
             lastNameTF.text?.isEmpty == true ||
             emailTF.text?.isEmpty == true {
@@ -125,8 +127,11 @@ class LoginViewController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         if !textFieldsAreEmpty() {
             // send email action
-            sendEmail()
-            print("EMAIL ACTION")
+            let vc = PDMeasurementViewController.loadFromNib()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+//            sendEmail()
+//            print("EMAIL ACTION")
         }
     }
 }

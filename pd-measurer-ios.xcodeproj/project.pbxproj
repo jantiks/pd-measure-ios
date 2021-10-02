@@ -17,6 +17,9 @@
 		A030D8D826FA006200C01C84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A030D8D626FA006200C01C84 /* Main.storyboard */; };
 		A030D8DA26FA006400C01C84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A030D8D926FA006400C01C84 /* Assets.xcassets */; };
 		A030D8DD26FA006400C01C84 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A030D8DB26FA006400C01C84 /* LaunchScreen.storyboard */; };
+		A06EA24727088DF500BB71CA /* PDMeasurementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */; };
+		A06EA24827088DF500BB71CA /* PDMeasurementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */; };
+		A06EA24B2708939000BB71CA /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A06EA24A2708939000BB71CA /* ARKit.framework */; };
 		A0F8861B270081E500FE0FC0 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */; };
 		A0F8861E2700CD9B00FE0FC0 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861D2700CD9B00FE0FC0 /* Email.swift */; };
 /* End PBXBuildFile section */
@@ -34,6 +37,9 @@
 		A030D8D926FA006400C01C84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A030D8DC26FA006400C01C84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A030D8DE26FA006400C01C84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDMeasurementViewController.swift; sourceTree = "<group>"; };
+		A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDMeasurementViewController.xib; sourceTree = "<group>"; };
+		A06EA24A2708939000BB71CA /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
 		A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		A0F8861D2700CD9B00FE0FC0 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -43,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A06EA24B2708939000BB71CA /* ARKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +72,7 @@
 			children = (
 				A030D8CF26FA006200C01C84 /* pd-measurer-ios */,
 				A030D8CE26FA006200C01C84 /* Products */,
+				A06EA2492708938F00BB71CA /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +87,7 @@
 		A030D8CF26FA006200C01C84 /* pd-measurer-ios */ = {
 			isa = PBXGroup;
 			children = (
+				A06EA24427088D7E00BB71CA /* PDMeasurement */,
 				A0F8861C2700CD9000FE0FC0 /* Models */,
 				A0F88619270081D300FE0FC0 /* Extensions */,
 				A0F8861827007CC000FE0FC0 /* Login */,
@@ -87,6 +96,23 @@
 				A030D8DE26FA006400C01C84 /* Info.plist */,
 			);
 			path = "pd-measurer-ios";
+			sourceTree = "<group>";
+		};
+		A06EA24427088D7E00BB71CA /* PDMeasurement */ = {
+			isa = PBXGroup;
+			children = (
+				A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */,
+				A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */,
+			);
+			path = PDMeasurement;
+			sourceTree = "<group>";
+		};
+		A06EA2492708938F00BB71CA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A06EA24A2708939000BB71CA /* ARKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		A0F8861727007CA500FE0FC0 /* Supproting Files */ = {
@@ -183,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A024E3E927024A58008E48AE /* FiraSans-Regular.ttf in Resources */,
+				A06EA24827088DF500BB71CA /* PDMeasurementViewController.xib in Resources */,
 				A030D8DD26FA006400C01C84 /* LaunchScreen.storyboard in Resources */,
 				A030D8DA26FA006400C01C84 /* Assets.xcassets in Resources */,
 				A024E3E627024A51008E48AE /* FiraSans-Light.ttf in Resources */,
@@ -204,6 +231,7 @@
 				A030D8D526FA006200C01C84 /* LoginViewController.swift in Sources */,
 				A030D8D126FA006200C01C84 /* AppDelegate.swift in Sources */,
 				A030D8D326FA006200C01C84 /* SceneDelegate.swift in Sources */,
+				A06EA24727088DF500BB71CA /* PDMeasurementViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
