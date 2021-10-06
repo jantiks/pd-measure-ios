@@ -20,6 +20,8 @@
 		A06EA24727088DF500BB71CA /* PDMeasurementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */; };
 		A06EA24827088DF500BB71CA /* PDMeasurementViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */; };
 		A06EA24B2708939000BB71CA /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A06EA24A2708939000BB71CA /* ARKit.framework */; };
+		A06EA2702708F50600BB71CA /* SCNNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06EA26F2708F50600BB71CA /* SCNNodeExtension.swift */; };
+		A06EA2732708FEE500BB71CA /* SCNHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06EA2722708FEE400BB71CA /* SCNHelper.swift */; };
 		A0F8861B270081E500FE0FC0 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */; };
 		A0F8861E2700CD9B00FE0FC0 /* Email.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8861D2700CD9B00FE0FC0 /* Email.swift */; };
 /* End PBXBuildFile section */
@@ -40,6 +42,8 @@
 		A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDMeasurementViewController.swift; sourceTree = "<group>"; };
 		A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PDMeasurementViewController.xib; sourceTree = "<group>"; };
 		A06EA24A2708939000BB71CA /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		A06EA26F2708F50600BB71CA /* SCNNodeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNNodeExtension.swift; sourceTree = "<group>"; };
+		A06EA2722708FEE400BB71CA /* SCNHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNHelper.swift; sourceTree = "<group>"; };
 		A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		A0F8861D2700CD9B00FE0FC0 /* Email.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Email.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +105,7 @@
 		A06EA24427088D7E00BB71CA /* PDMeasurement */ = {
 			isa = PBXGroup;
 			children = (
+				A06EA2712708FED800BB71CA /* Helpers */,
 				A06EA24527088DF500BB71CA /* PDMeasurementViewController.swift */,
 				A06EA24627088DF500BB71CA /* PDMeasurementViewController.xib */,
 			);
@@ -113,6 +118,14 @@
 				A06EA24A2708939000BB71CA /* ARKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A06EA2712708FED800BB71CA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				A06EA2722708FEE400BB71CA /* SCNHelper.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		A0F8861727007CA500FE0FC0 /* Supproting Files */ = {
@@ -139,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				A0F8861A270081E500FE0FC0 /* UIViewControllerExtension.swift */,
+				A06EA26F2708F50600BB71CA /* SCNNodeExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -232,6 +246,8 @@
 				A030D8D126FA006200C01C84 /* AppDelegate.swift in Sources */,
 				A030D8D326FA006200C01C84 /* SceneDelegate.swift in Sources */,
 				A06EA24727088DF500BB71CA /* PDMeasurementViewController.swift in Sources */,
+				A06EA2732708FEE500BB71CA /* SCNHelper.swift in Sources */,
+				A06EA2702708F50600BB71CA /* SCNNodeExtension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
