@@ -45,16 +45,16 @@
                     </connections>
                 </button>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GvN-Ld-IeY" userLabel="Result View">
-                    <rect key="frame" x="117" y="64" width="180" height="20"/>
+                    <rect key="frame" x="117" y="94" width="180" height="68"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD5-Ky-cCh">
-                            <rect key="frame" x="10" y="10" width="160" height="0.0"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Far PD: 0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD5-Ky-cCh">
+                            <rect key="frame" x="10" y="10" width="160" height="24"/>
                             <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2q-Dw-aFh">
-                            <rect key="frame" x="10" y="10" width="160" height="0.0"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Near PD: 0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2q-Dw-aFh">
+                            <rect key="frame" x="10" y="34" width="160" height="24"/>
                             <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
@@ -72,17 +72,29 @@
                         <constraint firstAttribute="bottom" secondItem="b2q-Dw-aFh" secondAttribute="bottom" constant="10" id="phf-6r-Edx"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxU-i3-Pla" userLabel="reset button">
+                    <rect key="frame" x="10" y="54" width="48" height="31"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" image="arrow.uturn.backward" catalog="system" title=" ">
+                        <color key="baseForegroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </buttonConfiguration>
+                    <connections>
+                        <action selector="resetAction:" destination="-1" eventType="touchUpInside" id="um0-Ox-33T"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="AYq-Yu-Y0R"/>
-                <constraint firstItem="GvN-Ld-IeY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="BCz-qK-0Jb"/>
+                <constraint firstItem="GvN-Ld-IeY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="BCz-qK-0Jb"/>
                 <constraint firstItem="GvN-Ld-IeY" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="DWM-RP-zZv"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GFu-zR-Hfd"/>
                 <constraint firstAttribute="bottom" secondItem="RnH-W0-4cp" secondAttribute="bottom" id="PGn-Ha-1Jc"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkb-Cc-Uwb"/>
                 <constraint firstItem="83y-cY-Vtw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="adh-gW-89i"/>
+                <constraint firstItem="RxU-i3-Pla" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="pBF-N8-gn7"/>
+                <constraint firstItem="RxU-i3-Pla" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="xCO-BW-FpN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="83y-cY-Vtw" secondAttribute="trailing" constant="10" id="zlx-7K-62y"/>
             </constraints>
             <point key="canvasLocation" x="131.8840579710145" y="64.955357142857139"/>
@@ -90,6 +102,7 @@
     </objects>
     <resources>
         <image name="arrow.down" catalog="system" width="120" height="128"/>
+        <image name="arrow.uturn.backward" catalog="system" width="128" height="112"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

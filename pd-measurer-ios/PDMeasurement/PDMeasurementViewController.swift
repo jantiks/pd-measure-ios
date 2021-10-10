@@ -11,15 +11,13 @@ import SceneKit
 
 class PDMeasurementViewController: UIViewController {
     
-    @IBOutlet weak var sceneView: ARSCNView!
-    @IBOutlet weak var resultView: UIView!
-    @IBOutlet weak var farPdLabel: UILabel!
-    @IBOutlet weak var nearPdLabel: UILabel!
+    @IBOutlet private weak var sceneView: ARSCNView!
+    @IBOutlet private weak var resultView: UIView!
+    @IBOutlet private weak var farPdLabel: UILabel!
+    @IBOutlet private weak var nearPdLabel: UILabel!
     @IBOutlet private weak var closeButton: UIButton!
     
-    private var textNode: SCNNode? = nil
     private var pupilLine: SCNNode? = nil
-    private var resultNode: SCNNode? = nil
     private var zPositionDiff: CGFloat = 0
     private var blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber] = [:]
     private var faceAngle: Float = 0
@@ -27,6 +25,7 @@ class PDMeasurementViewController: UIViewController {
     private var deleteResultsTimer: Timer?
     private var pixelInMm: Float = 0
     private var pdResults: [CGFloat] = []
+    private var isFirstMeasurement = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,7 +46,7 @@ class PDMeasurementViewController: UIViewController {
         deleteResultsTimer?.invalidate()
     }
     
-    func displayErrorMessage(title: String, message: String) {
+    private func displayErrorMessage(title: String, message: String) {
         // Present an alert informing about the error that has occurred.
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let restartAction = UIAlertAction(title: "Restart Session", style: .default) { _ in
@@ -143,6 +142,11 @@ class PDMeasurementViewController: UIViewController {
     }
     
     private func setPupilPositions(_ face: VNFaceObservation, size: CGSize) {
+        if isFirstMeasurement {
+            isFirstMeasurement = false
+            return
+        }
+        
         if let leftLandmark = face.landmarks?.leftPupil, let leftPoint = leftLandmark.normalizedPoints.first, let rightLandmark = face.landmarks?.rightPupil, let rightPoint = rightLandmark.normalizedPoints.first {
             
             // draw the face rect
@@ -180,7 +184,6 @@ class PDMeasurementViewController: UIViewController {
     
     private func removeNodes() {
         pupilLine?.removeFromParentNode()
-        resultNode?.removeFromParentNode()
     }
     
     private func startTracking() {
@@ -194,8 +197,21 @@ class PDMeasurementViewController: UIViewController {
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
+    private func reset() {
+        pdResults = []
+        isFirstMeasurement = true
+        farPdLabel.text = "Far PD: 0"
+        nearPdLabel.text = "Near PD: 0"
+        startTracking()
+    }
+    
     @IBAction private func closeAction(_ sender: UIButton) {
         dismiss(animated: true)
+    }
+    
+    @IBAction func resetAction(_ sender: UIButton) {
+        print("WORKED RESET")
+        reset()
     }
 }
 
@@ -251,21 +267,12 @@ extension PDMeasurementViewController: ARSCNViewDelegate, ARSessionDelegate {
         pixelInMm = (pixelInMm1 + pixelInMm2 + pixelInMm3 + pixelInMm4) / Float(4)
 
         // face angle
-        // face angle
         let faceZeroVectorInRootNode = self.sceneView.scene.rootNode.convertPosition(SCNVector3Zero, to: node)
         let magnitude = sqrt(faceZeroVectorInRootNode.x * faceZeroVectorInRootNode.x + faceZeroVectorInRootNode.z * faceZeroVectorInRootNode.z)
         let cosOfFaceVector = faceZeroVectorInRootNode.x / magnitude
         faceAngle = (asin(cosOfFaceVector) * 180 / Float.pi)
         
         pupilLine?.buildLineInTwoPointsWithRotation(from: faceAnchor.leftEyeTransform.position(), to: faceAnchor.rightEyeTransform.position(), radius: 0.0004, diffuse: UIColor.white)
-//        let text = SCNText(string: "HELLO WORLD", extrusionDepth: 0)
-//        let material = SCNMaterial()
-//        material.diffuse.contents = UIColor.red
-//        text.materials = [material]
-//        text.font = UIFont(name: "Helvatica", size: 30)
-//        resultNode?.geometry = text
-        resultNode?.position = SCNVector3(faceAnchor.geometry.vertices[1022])
-        textNode?.position = SCNVector3(faceAnchor.geometry.vertices[1022])
         zPositionDiff = CGFloat(abs(faceAnchor.leftEyeTransform.position().z - faceAnchor.rightEyeTransform.position().z)) * 1000
     }
 }
