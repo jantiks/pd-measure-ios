@@ -179,7 +179,7 @@ class PDMeasurementViewController: UIViewController {
     
     private func updatePdNodes(_ pd: CGFloat) {
         farPdLabel.text = "Far PD: \(String(format: "%.01f", pd))"
-        nearPdLabel.text = "Near PD: \(String(format: "%.01f", pd - 2))"
+        nearPdLabel.text = "Near PD: \(String(format: "%.01f", pd - 3))"
     }
     
     private func removeNodes() {
