@@ -15,6 +15,7 @@ class PDMeasurementViewController: UIViewController {
     @IBOutlet private weak var resultView: UIView!
     @IBOutlet private weak var farPdLabel: UILabel!
     @IBOutlet private weak var nearPdLabel: UILabel!
+    @IBOutlet private weak var calculationLoader: UIActivityIndicatorView!
     @IBOutlet private weak var closeButton: UIButton!
     
     private var pupilLine: SCNNode? = nil
@@ -34,8 +35,9 @@ class PDMeasurementViewController: UIViewController {
         sceneView.delegate = self
         sceneView.session.delegate = self
         scanTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(scanForFaces), userInfo: nil, repeats: true)
-        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
+        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
         initUi()
+        reset()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -60,6 +62,19 @@ class PDMeasurementViewController: UIViewController {
     private func initUi() {
         resultView.layer.cornerRadius = 10
         resultView.alpha = 0.7
+        calculationLoader.hidesWhenStopped = true
+    }
+    
+    private func startLoader() {
+        calculationLoader.startAnimating()
+        farPdLabel.isHidden = true
+        nearPdLabel.isHidden = true
+    }
+    
+    private func stopLoader() {
+        calculationLoader.stopAnimating()
+        farPdLabel.isHidden = false
+        nearPdLabel.isHidden = false
     }
     
     private func setNodes(_ node: SCNNode) {
@@ -90,8 +105,9 @@ class PDMeasurementViewController: UIViewController {
     }
     
     @objc private func deleteResults() {
-        if pdResults.count >= 20 {
+        if pdResults.count >= 5 {
             pdResults.removeFirst()
+            stopLoader()
         }
     }
     
@@ -198,10 +214,11 @@ class PDMeasurementViewController: UIViewController {
     }
     
     private func reset() {
-        pdResults = []
+        pdResults.removeAll(keepingCapacity: true)
         isFirstMeasurement = true
         farPdLabel.text = "Far PD: 0"
         nearPdLabel.text = "Near PD: 0"
+        startLoader()
         startTracking()
     }
     

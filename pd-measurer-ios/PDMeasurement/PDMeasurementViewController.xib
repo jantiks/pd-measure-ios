@@ -17,6 +17,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PDMeasurementViewController" customModule="pd_measurer_ios" customModuleProvider="target">
             <connections>
+                <outlet property="calculationLoader" destination="Ean-yd-3ls" id="oj2-fR-DYL"/>
                 <outlet property="closeButton" destination="83y-cY-Vtw" id="1Gl-d5-60W"/>
                 <outlet property="farPdLabel" destination="RD5-Ky-cCh" id="Oj1-Q7-cxA"/>
                 <outlet property="nearPdLabel" destination="b2q-Dw-aFh" id="XQL-Ez-zf0"/>
@@ -72,6 +73,13 @@
                         <constraint firstAttribute="bottom" secondItem="b2q-Dw-aFh" secondAttribute="bottom" constant="10" id="phf-6r-Edx"/>
                     </constraints>
                 </view>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="Ean-yd-3ls" userLabel="Loader">
+                    <rect key="frame" x="188.5" y="109.5" width="37" height="37"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="37" id="Whb-0T-tmM"/>
+                        <constraint firstAttribute="height" constant="37" id="fdN-hK-tln"/>
+                    </constraints>
+                </activityIndicatorView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxU-i3-Pla" userLabel="reset button">
                     <rect key="frame" x="10" y="54" width="48" height="31"/>
                     <state key="normal" title="Button"/>
@@ -93,7 +101,9 @@
                 <constraint firstAttribute="bottom" secondItem="RnH-W0-4cp" secondAttribute="bottom" id="PGn-Ha-1Jc"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkb-Cc-Uwb"/>
                 <constraint firstItem="83y-cY-Vtw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="adh-gW-89i"/>
+                <constraint firstItem="Ean-yd-3ls" firstAttribute="centerX" secondItem="GvN-Ld-IeY" secondAttribute="centerX" id="djg-jE-MYo"/>
                 <constraint firstItem="RxU-i3-Pla" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="pBF-N8-gn7"/>
+                <constraint firstItem="Ean-yd-3ls" firstAttribute="centerY" secondItem="GvN-Ld-IeY" secondAttribute="centerY" id="va7-sM-fsm"/>
                 <constraint firstItem="RxU-i3-Pla" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="xCO-BW-FpN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="83y-cY-Vtw" secondAttribute="trailing" constant="10" id="zlx-7K-62y"/>
             </constraints>
