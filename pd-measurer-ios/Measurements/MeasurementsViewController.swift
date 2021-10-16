@@ -15,7 +15,10 @@ class MeasurementsViewController: UIViewController {
     @IBOutlet private weak var resultView: UIView!
     @IBOutlet private weak var farPdLabel: UILabel!
     @IBOutlet private weak var nearPdLabel: UILabel!
+    @IBOutlet weak var shLabel: UILabel!
+    @IBOutlet private weak var loaderView: UIActivityIndicatorView!
     @IBOutlet private weak var closeButton: UIButton!
+    @IBOutlet private weak var shButton: UIButton!
     
     private var pupilLine: SCNNode? = nil
     private var zPositionDiff: CGFloat = 0
@@ -34,8 +37,9 @@ class MeasurementsViewController: UIViewController {
         sceneView.delegate = self
         sceneView.session.delegate = self
         scanTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(scanForFaces), userInfo: nil, repeats: true)
-        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
+        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
         initUi()
+        startLoader()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -44,6 +48,16 @@ class MeasurementsViewController: UIViewController {
         sceneView.session.pause()
         scanTimer?.invalidate()
         deleteResultsTimer?.invalidate()
+    }
+    
+    private func startLoader() {
+        [farPdLabel, nearPdLabel, shLabel].forEach({ $0?.isHidden = true })
+        loaderView.startAnimating()
+    }
+    
+    private func stopLoader() {
+        [farPdLabel, nearPdLabel, shLabel].forEach({ $0?.isHidden = false })
+        loaderView.stopAnimating()
     }
     
     private func displayErrorMessage(title: String, message: String) {
@@ -60,6 +74,10 @@ class MeasurementsViewController: UIViewController {
     private func initUi() {
         resultView.layer.cornerRadius = 10
         resultView.alpha = 0.7
+        shButton.layer.cornerRadius = 10
+        shLabel.isHidden = true
+        shButton.isHidden = true
+        loaderView.hidesWhenStopped = true
     }
     
     private func setNodes(_ node: SCNNode) {
@@ -90,8 +108,10 @@ class MeasurementsViewController: UIViewController {
     }
     
     @objc private func deleteResults() {
-        if pdResults.count >= 20 {
+        if pdResults.count >= 5 {
+            stopLoader()
             pdResults.removeFirst()
+            shButton.isHidden = false
         }
     }
     
@@ -202,6 +222,7 @@ class MeasurementsViewController: UIViewController {
         isFirstMeasurement = true
         farPdLabel.text = "Far PD: 0"
         nearPdLabel.text = "Near PD: 0"
+        shLabel.isHidden = true
         startTracking()
     }
     
@@ -212,6 +233,10 @@ class MeasurementsViewController: UIViewController {
     @IBAction func resetAction(_ sender: UIButton) {
         print("WORKED RESET")
         reset()
+    }
+    
+    @IBAction func shMeasureAction(_ sender: UIButton) {
+        
     }
 }
 

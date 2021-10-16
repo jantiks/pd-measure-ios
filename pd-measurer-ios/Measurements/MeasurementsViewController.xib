@@ -19,9 +19,12 @@
             <connections>
                 <outlet property="closeButton" destination="83y-cY-Vtw" id="1Gl-d5-60W"/>
                 <outlet property="farPdLabel" destination="RD5-Ky-cCh" id="Oj1-Q7-cxA"/>
-                <outlet property="nearPdLabel" destination="b2q-Dw-aFh" id="XQL-Ez-zf0"/>
+                <outlet property="loaderView" destination="cEh-ie-93U" id="RnB-fG-Nf8"/>
+                <outlet property="nearPdLabel" destination="b2q-Dw-aFh" id="sdQ-Xg-me6"/>
                 <outlet property="resultView" destination="GvN-Ld-IeY" id="z7m-Po-BGr"/>
                 <outlet property="sceneView" destination="RnH-W0-4cp" id="Jfe-6D-kjb"/>
+                <outlet property="shButton" destination="aSd-RQ-RWC" id="JMe-lR-7LT"/>
+                <outlet property="shLabel" destination="LcM-uF-dyd" id="akx-T0-F3P"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -45,31 +48,47 @@
                     </connections>
                 </button>
                 <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GvN-Ld-IeY" userLabel="Result View">
-                    <rect key="frame" x="117" y="94" width="180" height="68"/>
+                    <rect key="frame" x="117" y="94" width="180" height="92"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Far PD: 0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD5-Ky-cCh">
-                            <rect key="frame" x="10" y="10" width="160" height="24"/>
-                            <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Near PD: 0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2q-Dw-aFh">
-                            <rect key="frame" x="10" y="34" width="160" height="24"/>
-                            <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
-                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Xrp-04-qyi">
+                            <rect key="frame" x="10" y="10" width="160" height="72"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Far PD: 0.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RD5-Ky-cCh">
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="24"/>
+                                    <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Near PD: 0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2q-Dw-aFh">
+                                    <rect key="frame" x="0.0" y="24" width="160" height="24"/>
+                                    <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SH: 0.0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LcM-uF-dyd">
+                                    <rect key="frame" x="0.0" y="48" width="160" height="24"/>
+                                    <fontDescription key="fontDescription" name="FiraSans-Regular" family="Fira Sans" pointSize="20"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="cEh-ie-93U">
+                            <rect key="frame" x="0.0" y="0.0" width="180" height="92"/>
+                        </activityIndicatorView>
                     </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstItem="RD5-Ky-cCh" firstAttribute="top" secondItem="GvN-Ld-IeY" secondAttribute="top" constant="10" id="9Tf-R2-40r"/>
-                        <constraint firstAttribute="trailing" secondItem="RD5-Ky-cCh" secondAttribute="trailing" constant="10" id="T3u-QF-DhT"/>
-                        <constraint firstAttribute="trailing" secondItem="b2q-Dw-aFh" secondAttribute="trailing" constant="10" id="ToN-nq-NDT"/>
+                        <constraint firstItem="Xrp-04-qyi" firstAttribute="top" secondItem="GvN-Ld-IeY" secondAttribute="top" constant="10" id="CMM-3z-AK0"/>
+                        <constraint firstAttribute="bottom" secondItem="cEh-ie-93U" secondAttribute="bottom" id="F6B-Sb-nLg"/>
+                        <constraint firstItem="cEh-ie-93U" firstAttribute="top" secondItem="GvN-Ld-IeY" secondAttribute="top" id="Nnn-8y-owM"/>
+                        <constraint firstItem="Xrp-04-qyi" firstAttribute="leading" secondItem="GvN-Ld-IeY" secondAttribute="leading" constant="10" id="Umn-3t-ETX"/>
                         <constraint firstAttribute="width" constant="180" id="WjU-F5-ZBh"/>
-                        <constraint firstItem="RD5-Ky-cCh" firstAttribute="leading" secondItem="GvN-Ld-IeY" secondAttribute="leading" constant="10" id="eOR-ia-ZKx"/>
-                        <constraint firstItem="b2q-Dw-aFh" firstAttribute="leading" secondItem="GvN-Ld-IeY" secondAttribute="leading" constant="10" id="h9T-on-u5O"/>
-                        <constraint firstItem="b2q-Dw-aFh" firstAttribute="top" secondItem="RD5-Ky-cCh" secondAttribute="bottom" id="ovd-yJ-TOV"/>
-                        <constraint firstAttribute="bottom" secondItem="b2q-Dw-aFh" secondAttribute="bottom" constant="10" id="phf-6r-Edx"/>
+                        <constraint firstAttribute="trailing" secondItem="cEh-ie-93U" secondAttribute="trailing" id="Zwd-Os-DbR"/>
+                        <constraint firstAttribute="height" constant="92" id="bJ7-JT-XLu"/>
+                        <constraint firstItem="cEh-ie-93U" firstAttribute="leading" secondItem="GvN-Ld-IeY" secondAttribute="leading" id="go6-Dc-41K"/>
+                        <constraint firstAttribute="bottom" secondItem="Xrp-04-qyi" secondAttribute="bottom" constant="10" id="ob3-h6-hex"/>
+                        <constraint firstAttribute="trailing" secondItem="Xrp-04-qyi" secondAttribute="trailing" constant="10" id="zfp-G3-QDD"/>
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RxU-i3-Pla" userLabel="reset button">
@@ -82,6 +101,20 @@
                         <action selector="resetAction:" destination="-1" eventType="touchUpInside" id="um0-Ox-33T"/>
                     </connections>
                 </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aSd-RQ-RWC">
+                    <rect key="frame" x="107" y="792" width="200" height="40"/>
+                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="H0I-FA-OMo"/>
+                        <constraint firstAttribute="width" constant="200" id="cos-54-eJg"/>
+                    </constraints>
+                    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="SH Measurement"/>
+                    <connections>
+                        <action selector="shMeasureAction:" destination="-1" eventType="touchUpInside" id="UIc-rA-I7k"/>
+                    </connections>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -89,6 +122,8 @@
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="AYq-Yu-Y0R"/>
                 <constraint firstItem="GvN-Ld-IeY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="BCz-qK-0Jb"/>
                 <constraint firstItem="GvN-Ld-IeY" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="DWM-RP-zZv"/>
+                <constraint firstItem="aSd-RQ-RWC" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="Dh3-3M-rTQ"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="aSd-RQ-RWC" secondAttribute="bottom" constant="30" id="EVl-7T-vlR"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GFu-zR-Hfd"/>
                 <constraint firstAttribute="bottom" secondItem="RnH-W0-4cp" secondAttribute="bottom" id="PGn-Ha-1Jc"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkb-Cc-Uwb"/>
