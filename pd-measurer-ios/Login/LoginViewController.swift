@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
     @IBAction func loginAction(_ sender: UIButton) {
         if !textFieldsAreEmpty() {
             // send email action
-            let vc = PDMeasurementViewController.loadFromNib()
+            let vc = MeasurementsViewController.loadFromNib()
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true)
 //            sendEmail()

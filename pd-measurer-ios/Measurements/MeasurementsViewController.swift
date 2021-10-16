@@ -9,7 +9,7 @@ import UIKit
 import ARKit
 import SceneKit
 
-class PDMeasurementViewController: UIViewController {
+class MeasurementsViewController: UIViewController {
     
     @IBOutlet private weak var sceneView: ARSCNView!
     @IBOutlet private weak var resultView: UIView!
@@ -127,7 +127,7 @@ class PDMeasurementViewController: UIViewController {
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                //Loop through the resulting faces and add a red UIView on top of them.
+
                 if let faces = request.results as? [VNFaceObservation] {
                     for face in faces {
                         self.setPupilPositions(face, size: self.sceneView.frame.size)
@@ -158,6 +158,7 @@ class PDMeasurementViewController: UIViewController {
             let h = face.boundingBox.size.height * size.height
             let x = face.boundingBox.origin.x * size.width
             let y = face.boundingBox.origin.y * size.height
+
             let startPoint = CGPoint(x: x + CGFloat(leftPoint.x) * w, y: y + CGFloat(leftPoint.y) * h).applying(affineTransform)
             let endPoint = CGPoint(x: x + CGFloat(rightPoint.x) * w, y: y + CGFloat(rightPoint.y) * h).applying(affineTransform)
             
@@ -171,7 +172,6 @@ class PDMeasurementViewController: UIViewController {
         guard pdResults.count > 0 else { return 0 }
         
         var averageResult: CGFloat = 0
-        
         pdResults.forEach({ averageResult += CGFloat($0) })
         
         return averageResult / CGFloat(pdResults.count)
@@ -215,7 +215,7 @@ class PDMeasurementViewController: UIViewController {
     }
 }
 
-extension PDMeasurementViewController: ARSCNViewDelegate, ARSessionDelegate {
+extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
     
     func session(_ session: ARSession, didFailWithError error: Error) {
         guard error is ARError else { return }

@@ -15,7 +15,7 @@
         </array>
     </customFonts>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PDMeasurementViewController" customModule="pd_measurer_ios" customModuleProvider="target">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MeasurementsViewController" customModule="pd_measurer_ios" customModuleProvider="target">
             <connections>
                 <outlet property="closeButton" destination="83y-cY-Vtw" id="1Gl-d5-60W"/>
                 <outlet property="farPdLabel" destination="RD5-Ky-cCh" id="Oj1-Q7-cxA"/>
