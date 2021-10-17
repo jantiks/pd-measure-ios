@@ -12,23 +12,39 @@ import SceneKit
 class MeasurementsViewController: UIViewController {
     
     @IBOutlet private weak var sceneView: ARSCNView!
+    @IBOutlet private weak var shImageView: UIImageView!
     @IBOutlet private weak var resultView: UIView!
     @IBOutlet private weak var farPdLabel: UILabel!
     @IBOutlet private weak var nearPdLabel: UILabel!
-    @IBOutlet weak var shLabel: UILabel!
     @IBOutlet private weak var loaderView: UIActivityIndicatorView!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var shButton: UIButton!
+    @IBOutlet private weak var leftButtons: UIView!
+    @IBOutlet private weak var rightButtons: UIView!
+    @IBOutlet private weak var applyButton: UIButton!
     
+    private var lastSnapshot: UIImage?
+    private var measurementType: MeasurementType = .pd
+    private var leftSHLayer = CAShapeLayer()
+    private var rightSHLayer = CAShapeLayer()
     private var pupilLine: SCNNode? = nil
     private var zPositionDiff: CGFloat = 0
     private var blendShapes: [ARFaceAnchor.BlendShapeLocation : NSNumber] = [:]
     private var faceAngle: Float = 0
     private var scanTimer: Timer?
     private var deleteResultsTimer: Timer?
-    private var pixelInMm: Float = 0
+    private var pixelInMm: CGFloat = 0
     private var pdResults: [CGFloat] = []
     private var isFirstMeasurement = true
+    private var leftPupilPoint: CGPoint?
+    private var rightPupilPoint: CGPoint?
+    private var nosePoint: CGPoint?
+    private var leftSHChange: CGFloat = 0.0
+    private var rightSHChnage: CGFloat = 0.0
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,8 +52,8 @@ class MeasurementsViewController: UIViewController {
         startTracking()
         sceneView.delegate = self
         sceneView.session.delegate = self
-        scanTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(scanForFaces), userInfo: nil, repeats: true)
-        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
+        
+        initTimers()
         initUi()
         startLoader()
     }
@@ -51,12 +67,12 @@ class MeasurementsViewController: UIViewController {
     }
     
     private func startLoader() {
-        [farPdLabel, nearPdLabel, shLabel].forEach({ $0?.isHidden = true })
+        [farPdLabel, nearPdLabel].forEach({ $0?.isHidden = true })
         loaderView.startAnimating()
     }
     
     private func stopLoader() {
-        [farPdLabel, nearPdLabel, shLabel].forEach({ $0?.isHidden = false })
+        [farPdLabel, nearPdLabel].forEach({ $0?.isHidden = false })
         loaderView.stopAnimating()
     }
     
@@ -71,13 +87,24 @@ class MeasurementsViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    private func initTimers() {
+        scanTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(scanForFaces), userInfo: nil, repeats: true)
+        deleteResultsTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(deleteResults), userInfo: nil, repeats: true)
+    }
+    
     private func initUi() {
+        view.layer.addSublayer(leftSHLayer)
+        view.layer.addSublayer(rightSHLayer)
+        
         resultView.layer.cornerRadius = 10
         resultView.alpha = 0.7
         shButton.layer.cornerRadius = 10
-        shLabel.isHidden = true
-        shButton.isHidden = true
+        applyButton.layer.cornerRadius = 10
+        leftButtons.layer.cornerRadius = 10
+        rightButtons.layer.cornerRadius = 10
+        
         loaderView.hidesWhenStopped = true
+        [shButton, applyButton, shImageView, leftButtons, rightButtons].forEach({ $0?.isHidden = true })
     }
     
     private func setNodes(_ node: SCNNode) {
@@ -111,15 +138,21 @@ class MeasurementsViewController: UIViewController {
         if pdResults.count >= 5 {
             stopLoader()
             pdResults.removeFirst()
-            shButton.isHidden = false
+            if measurementType == .pd {
+                shButton.isHidden = false
+                applyButton.isHidden = false
+            }
         }
     }
     
     @objc
     private func scanForFaces() {
         guard shouldScanFace() else { return }
+        guard measurementType == .pd else { return }
         //get the captured image of the ARSession's current frame
         let capturedImage = sceneView.snapshot()
+        
+        
         var orientation: Int32 = 0
         
         // detect image orientation, we need it to be accurate for the face detection to work
@@ -147,7 +180,8 @@ class MeasurementsViewController: UIViewController {
         let detectFaceRequest = VNDetectFaceLandmarksRequest { (request, error) in
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-
+                
+                self.lastSnapshot = capturedImage
                 if let faces = request.results as? [VNFaceObservation] {
                     for face in faces {
                         self.setPupilPositions(face, size: self.sceneView.frame.size)
@@ -167,24 +201,26 @@ class MeasurementsViewController: UIViewController {
             return
         }
         
-        if let leftLandmark = face.landmarks?.leftPupil, let leftPoint = leftLandmark.normalizedPoints.first, let rightLandmark = face.landmarks?.rightPupil, let rightPoint = rightLandmark.normalizedPoints.first {
-            
+        if let leftLandmark = face.landmarks?.leftPupil, let leftNormalizedPoint = leftLandmark.normalizedPoints.first,
+           let rightLandmark = face.landmarks?.rightPupil, let rightNormalizedPoint = rightLandmark.normalizedPoints.first,
+           let nosePointNormalized = face.landmarks?.nose?.normalizedPoints[1] {
             // draw the face rect
             let affineTransform = CGAffineTransform(translationX: 0, y: size.height)
                 .scaledBy(x: 1.0, y: -1.0)
-            
+
             // draw the face rect
             let w = face.boundingBox.size.width * size.width
             let h = face.boundingBox.size.height * size.height
             let x = face.boundingBox.origin.x * size.width
             let y = face.boundingBox.origin.y * size.height
 
-            let startPoint = CGPoint(x: x + CGFloat(leftPoint.x) * w, y: y + CGFloat(leftPoint.y) * h).applying(affineTransform)
-            let endPoint = CGPoint(x: x + CGFloat(rightPoint.x) * w, y: y + CGFloat(rightPoint.y) * h).applying(affineTransform)
+            leftPupilPoint = CGPoint(x: x + CGFloat(leftNormalizedPoint.x) * w, y: y + CGFloat(leftNormalizedPoint.y) * h).applying(affineTransform)
+            rightPupilPoint = CGPoint(x: x + CGFloat(rightNormalizedPoint.x) * w, y: y + CGFloat(rightNormalizedPoint.y) * h).applying(affineTransform)
+            nosePoint = CGPoint(x: x + CGFloat(nosePointNormalized.x) * w, y: y + CGFloat(nosePointNormalized.y) * h).applying(affineTransform)
             
-            pdResults.append(((SCNHelper.CGPointDistance(from: startPoint, to: endPoint)) * CGFloat(pixelInMm)) + zPositionDiff)
+            pdResults.append(((SCNHelper.CGPointDistance(from: leftPupilPoint!, to: rightPupilPoint!)) * pixelInMm) + zPositionDiff)
             
-            updatePdNodes(getAveragePdResult())
+            updateResultLables(getAveragePdResult(), getAveragePdResult() - 3)
         }
     }
     
@@ -197,9 +233,14 @@ class MeasurementsViewController: UIViewController {
         return averageResult / CGFloat(pdResults.count)
     }
     
-    private func updatePdNodes(_ pd: CGFloat) {
-        farPdLabel.text = "Far PD: \(String(format: "%.01f", pd))"
-        nearPdLabel.text = "Near PD: \(String(format: "%.01f", pd - 3))"
+    private func updateResultLables(_ first: CGFloat, _ second: CGFloat) {
+        if measurementType == .pd {
+            farPdLabel.text = "Far PD: \(String(format: "%.01f", first))"
+            nearPdLabel.text = "Near PD: \(String(format: "%.01f", second))"
+        } else {
+            farPdLabel.text = "Left SH: \(String(format: "%.01f", first))"
+            nearPdLabel.text = "Right SH: \(String(format: "%.01f", second))"
+        }
     }
     
     private func removeNodes() {
@@ -217,13 +258,54 @@ class MeasurementsViewController: UIViewController {
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
+    private func showSHLayers() {
+        guard let leftPupilPoint = leftPupilPoint, let rightPupilPoint = rightPupilPoint, let nosePoint = nosePoint  else { return }
+
+        // left sh layer
+        let leftPath = CGMutablePath()
+        leftPath.addLines(between: [CGPoint(x: leftPupilPoint.x - 10, y: leftPupilPoint.y), CGPoint(x: leftPupilPoint.x + 10, y: leftPupilPoint.y)])
+        leftPath.addLines(between: [leftPupilPoint, CGPoint(x: leftPupilPoint.x, y: nosePoint.y + leftSHChange)])
+        leftPath.addLines(between: [CGPoint(x: leftPupilPoint.x - 10, y: nosePoint.y + leftSHChange), CGPoint(x: leftPupilPoint.x + 10, y: nosePoint.y + leftSHChange)])
+        
+        leftSHLayer.path = leftPath
+        leftSHLayer.strokeColor = UIColor.red.cgColor
+        leftSHLayer.lineWidth = 1.5
+        leftSHLayer.opacity = 1
+        
+        // right sh layer
+        let rightPath = CGMutablePath()
+        rightPath.addLines(between: [CGPoint(x: rightPupilPoint.x - 10, y: rightPupilPoint.y), CGPoint(x: rightPupilPoint.x + 10, y: rightPupilPoint.y)])
+        rightPath.addLines(between: [rightPupilPoint, CGPoint(x: rightPupilPoint.x, y: nosePoint.y + rightSHChnage)])
+        rightPath.addLines(between: [CGPoint(x: rightPupilPoint.x - 10, y: nosePoint.y + rightSHChnage), CGPoint(x: rightPupilPoint.x + 10, y: nosePoint.y + rightSHChnage)])
+        
+        rightSHLayer.path = rightPath
+        rightSHLayer.strokeColor = UIColor.red.cgColor
+        rightSHLayer.lineWidth = 1.5
+        rightSHLayer.opacity = 1
+    }
+    
+    private func getLeftSH() -> CGFloat {
+        return (nosePoint!.y - leftPupilPoint!.y + leftSHChange) * pixelInMm
+    }
+    
+    private func getRightSH() -> CGFloat {
+        return (nosePoint!.y  - rightPupilPoint!.y + rightSHChnage) * pixelInMm
+    }
+    
     private func reset() {
         pdResults = []
         isFirstMeasurement = true
-        farPdLabel.text = "Far PD: 0"
-        nearPdLabel.text = "Near PD: 0"
-        shLabel.isHidden = true
+        [shImageView, shButton ,leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = true })
+        removeNodes()
+        measurementType = .pd
+        
+        leftSHLayer.path = nil
+        rightSHLayer.path = nil
+        leftSHChange = 0
+        rightSHChnage = 0
+        
         startTracking()
+        startLoader()
     }
     
     @IBAction private func closeAction(_ sender: UIButton) {
@@ -231,12 +313,51 @@ class MeasurementsViewController: UIViewController {
     }
     
     @IBAction func resetAction(_ sender: UIButton) {
-        print("WORKED RESET")
         reset()
     }
     
     @IBAction func shMeasureAction(_ sender: UIButton) {
+        measurementType = .sh
+        sceneView.session.pause()
         
+        shImageView.image = lastSnapshot
+        [shImageView, leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = false })
+        removeNodes()
+        shButton.isHidden = true
+        showSHLayers()
+        updateResultLables(getLeftSH(), getRightSH())
+    }
+    
+    @IBAction func applyAction(_ sender: UIButton) {
+        print("APPLY ACTION")
+    }
+    
+    @IBAction func leftUpAction(_ sender: UIButton) {
+        let changePixels: CGFloat = 0.3 / pixelInMm
+        leftSHChange -= changePixels
+        showSHLayers()
+        updateResultLables(getLeftSH(), getRightSH())
+    }
+    
+    @IBAction func leftDownAction(_ sender: UIButton) {
+        let changePixels: CGFloat = 0.3 / pixelInMm
+        leftSHChange += changePixels
+        showSHLayers()
+        updateResultLables(getLeftSH(), getRightSH())
+    }
+    
+    @IBAction func rightUpAction(_ sender: UIButton) {
+        let changePixels: CGFloat = 0.3 / pixelInMm
+        rightSHChnage -= changePixels
+        showSHLayers()
+        updateResultLables(getLeftSH(), getRightSH())
+    }
+    
+    @IBAction func rightDownAction(_ sender: UIButton) {
+        let changePixels: CGFloat = 0.3 / pixelInMm
+        rightSHChnage += changePixels
+        showSHLayers()
+        updateResultLables(getLeftSH(), getRightSH())
     }
 }
 
@@ -289,7 +410,7 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
         let pixelInMm3 = SCNHelper.getPixelInMmFrom(node, sceneView: sceneView, startVector: r1, endVector: r2)
         let pixelInMm4 = SCNHelper.getPixelInMmFrom(node, sceneView: sceneView, startVector: r3, endVector: r4)
         
-        pixelInMm = (pixelInMm1 + pixelInMm2 + pixelInMm3 + pixelInMm4) / Float(4)
+        pixelInMm = CGFloat((pixelInMm1 + pixelInMm2 + pixelInMm3 + pixelInMm4)) / CGFloat(4)
 
         // face angle
         let faceZeroVectorInRootNode = self.sceneView.scene.rootNode.convertPosition(SCNVector3Zero, to: node)

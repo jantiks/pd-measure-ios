@@ -18,11 +18,9 @@ class SCNHelper {
         }
 
         return SCNVector3( iv.x / length, iv.y / length, iv.z / length)
-
     }
     
     static func getPixelInMmFrom(_ node: SCNNode, sceneView: ARSCNView ,startVector: SCNVector3, endVector: SCNVector3) -> Float {
-        
         let startWorldVec = node.convertPosition(startVector, to: sceneView.scene.rootNode)
         let endWorldVec = node.convertPosition(endVector, to: sceneView.scene.rootNode)
         let startProjectedVec = sceneView.projectPoint(startWorldVec)

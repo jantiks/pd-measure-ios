@@ -17,6 +17,7 @@
 		A030D8D826FA006200C01C84 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A030D8D626FA006200C01C84 /* Main.storyboard */; };
 		A030D8DA26FA006400C01C84 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A030D8D926FA006400C01C84 /* Assets.xcassets */; };
 		A030D8DD26FA006400C01C84 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A030D8DB26FA006400C01C84 /* LaunchScreen.storyboard */; };
+		A04CC9C6271AE4C10022F2F8 /* MeasurementType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A04CC9C5271AE4C10022F2F8 /* MeasurementType.swift */; };
 		A06EA24727088DF500BB71CA /* MeasurementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A06EA24527088DF500BB71CA /* MeasurementsViewController.swift */; };
 		A06EA24827088DF500BB71CA /* MeasurementsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A06EA24627088DF500BB71CA /* MeasurementsViewController.xib */; };
 		A06EA24B2708939000BB71CA /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A06EA24A2708939000BB71CA /* ARKit.framework */; };
@@ -39,6 +40,7 @@
 		A030D8D926FA006400C01C84 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A030D8DC26FA006400C01C84 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A030D8DE26FA006400C01C84 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A04CC9C5271AE4C10022F2F8 /* MeasurementType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementType.swift; sourceTree = "<group>"; };
 		A06EA24527088DF500BB71CA /* MeasurementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementsViewController.swift; sourceTree = "<group>"; };
 		A06EA24627088DF500BB71CA /* MeasurementsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MeasurementsViewController.xib; sourceTree = "<group>"; };
 		A06EA24A2708939000BB71CA /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
@@ -108,6 +110,7 @@
 				A06EA2712708FED800BB71CA /* Helpers */,
 				A06EA24527088DF500BB71CA /* MeasurementsViewController.swift */,
 				A06EA24627088DF500BB71CA /* MeasurementsViewController.xib */,
+				A04CC9C5271AE4C10022F2F8 /* MeasurementType.swift */,
 			);
 			path = Measurements;
 			sourceTree = "<group>";
@@ -244,6 +247,7 @@
 				A0F8861E2700CD9B00FE0FC0 /* Email.swift in Sources */,
 				A030D8D526FA006200C01C84 /* LoginViewController.swift in Sources */,
 				A030D8D126FA006200C01C84 /* AppDelegate.swift in Sources */,
+				A04CC9C6271AE4C10022F2F8 /* MeasurementType.swift in Sources */,
 				A030D8D326FA006200C01C84 /* SceneDelegate.swift in Sources */,
 				A06EA24727088DF500BB71CA /* MeasurementsViewController.swift in Sources */,
 				A06EA2732708FEE500BB71CA /* SCNHelper.swift in Sources */,
