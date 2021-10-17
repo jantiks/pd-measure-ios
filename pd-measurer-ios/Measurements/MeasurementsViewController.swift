@@ -113,7 +113,7 @@ class MeasurementsViewController: UIViewController {
     
     private func setNodes(_ node: SCNNode) {
         removeNodes()
-        
+
         pupilLine = SCNNode()
         node.addChildNode(pupilLine!)
     }
@@ -163,8 +163,9 @@ class MeasurementsViewController: UIViewController {
         guard shouldScanFace() else { return }
         guard measurementType == .pd else { return }
         //get the captured image of the ARSession's current frame
+        pupilLine?.isHidden = true
         let capturedImage = sceneView.snapshot()
-        
+        pupilLine?.isHidden = false
         
         var orientation: Int32 = 0
         
@@ -257,6 +258,7 @@ class MeasurementsViewController: UIViewController {
     }
     
     private func removeNodes() {
+        print("worked remove nodes")
         pupilLine?.removeFromParentNode()
     }
     
@@ -327,7 +329,7 @@ class MeasurementsViewController: UIViewController {
         pdResults = []
         isFirstMeasurement = true
         [shImageView, shButton ,leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = true })
-        removeNodes()
+        pupilLine?.isHidden = true
         measurementType = .pd
         
         leftSHLayer.path = nil
@@ -340,6 +342,7 @@ class MeasurementsViewController: UIViewController {
     }
     
     @IBAction private func closeAction(_ sender: UIButton) {
+        stopTracking()
         dismiss(animated: true)
     }
     
@@ -431,7 +434,8 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
                   didUpdate node: SCNNode,
                   for anchor: ARAnchor) {
         guard let faceAnchor = anchor as? ARFaceAnchor else { return }
-        
+        print("WORKED RENDERE NODES")
+
         blendShapes = faceAnchor.blendShapes
         
         // left eye vertical nodes
@@ -462,35 +466,6 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
         
         pupilLine?.buildLineInTwoPointsWithRotation(from: faceAnchor.leftEyeTransform.position(), to: faceAnchor.rightEyeTransform.position(), radius: 0.0004, diffuse: UIColor.white)
         zPositionDiff = CGFloat(abs(faceAnchor.leftEyeTransform.position().z - faceAnchor.rightEyeTransform.position().z)) * 1000
-    }
-}
-
-
-extension MeasurementsViewController: MFMailComposeViewControllerDelegate {
-    func sendEmail() {
-        guard let emailBody = getEmailBody() else { return }
-        
-        if MFMailComposeViewController.canSendMail() {
-            let mailVC = MFMailComposeViewController()
-            mailVC.mailComposeDelegate = self
-            mailVC.setSubject("PD MEASUREMENTS")
-            mailVC.setMessageBody(emailBody, isHTML: true)
-            
-            present(mailVC, animated: true)
-        } else {
-            showEmailFailureAlert()
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
-    }
-    
-    private func showEmailFailureAlert() {
-        let ac = UIAlertController(title: "Email Error", message: "Couldn't send email message", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        
-        present(ac, animated: true)
     }
 }
 
