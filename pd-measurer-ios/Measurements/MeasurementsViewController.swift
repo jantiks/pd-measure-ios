@@ -8,6 +8,7 @@
 import UIKit
 import ARKit
 import SceneKit
+import MessageUI
 
 class MeasurementsViewController: UIViewController {
     
@@ -23,8 +24,9 @@ class MeasurementsViewController: UIViewController {
     @IBOutlet private weak var rightButtons: UIView!
     @IBOutlet private weak var applyButton: UIButton!
     
-    private var lastSnapshot: UIImage?
+    private var email: Email?
     private var measurementType: MeasurementType = .pd
+    private var lastSnapshot: UIImage?
     private var leftSHLayer = CAShapeLayer()
     private var rightSHLayer = CAShapeLayer()
     private var pupilLine: SCNNode? = nil
@@ -64,6 +66,10 @@ class MeasurementsViewController: UIViewController {
         sceneView.session.pause()
         scanTimer?.invalidate()
         deleteResultsTimer?.invalidate()
+    }
+    
+    func setEmail(_ email: Email) {
+        self.email = email
     }
     
     private func startLoader() {
@@ -233,13 +239,13 @@ class MeasurementsViewController: UIViewController {
         return averageResult / CGFloat(pdResults.count)
     }
     
-    private func updateResultLables(_ first: CGFloat, _ second: CGFloat) {
+    private func updateResultLables(_ first: CGFloat?, _ second: CGFloat?) {
         if measurementType == .pd {
-            farPdLabel.text = "Far PD: \(String(format: "%.01f", first))"
-            nearPdLabel.text = "Near PD: \(String(format: "%.01f", second))"
+            farPdLabel.text = "Far PD: \(String(format: "%.01f", first ?? "N/A"))"
+            nearPdLabel.text = "Near PD: \(String(format: "%.01f", second ?? "N/A"))"
         } else {
-            farPdLabel.text = "Left SH: \(String(format: "%.01f", first))"
-            nearPdLabel.text = "Right SH: \(String(format: "%.01f", second))"
+            farPdLabel.text = "Left SH: \(String(format: "%.01f", first ?? "N/A"))"
+            nearPdLabel.text = "Right SH: \(String(format: "%.01f", second ?? "N/A"))"
         }
     }
     
@@ -284,12 +290,24 @@ class MeasurementsViewController: UIViewController {
         rightSHLayer.opacity = 1
     }
     
-    private func getLeftSH() -> CGFloat {
+    private func getLeftSH() -> CGFloat? {
+        if measurementType == .pd {
+            return nil
+        }
+        
         return (nosePoint!.y - leftPupilPoint!.y + leftSHChange) * pixelInMm
     }
     
-    private func getRightSH() -> CGFloat {
+    private func getRightSH() -> CGFloat? {
+        if measurementType == .pd {
+            return nil
+        }
+        
         return (nosePoint!.y  - rightPupilPoint!.y + rightSHChnage) * pixelInMm
+    }
+    
+    private func getEmailBody() -> String? {
+        return email?.getEmailBody()
     }
     
     private func reset() {
@@ -329,7 +347,15 @@ class MeasurementsViewController: UIViewController {
     }
     
     @IBAction func applyAction(_ sender: UIButton) {
-        print("APPLY ACTION")
+        sceneView.session.pause()
+        
+        email?.setFarPD(Float(getAveragePdResult()))
+        email?.setNearPD(Float(getAveragePdResult() - 3))
+        getLeftSH() == nil ? email?.setLeftSH(nil) : email?.setLeftSH(Float(getLeftSH()!))
+        getRightSH() == nil ? email?.setRightSH(nil) : email?.setRightSH(Float(getRightSH()!))
+        
+        let ac = UIActivityViewController(activityItems: [email?.getEmailBody() as Any], applicationActivities: nil)
+        present(ac, animated: true)
     }
     
     @IBAction func leftUpAction(_ sender: UIButton) {
@@ -420,6 +446,35 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
         
         pupilLine?.buildLineInTwoPointsWithRotation(from: faceAnchor.leftEyeTransform.position(), to: faceAnchor.rightEyeTransform.position(), radius: 0.0004, diffuse: UIColor.white)
         zPositionDiff = CGFloat(abs(faceAnchor.leftEyeTransform.position().z - faceAnchor.rightEyeTransform.position().z)) * 1000
+    }
+}
+
+
+extension MeasurementsViewController: MFMailComposeViewControllerDelegate {
+    func sendEmail() {
+        guard let emailBody = getEmailBody() else { return }
+        
+        if MFMailComposeViewController.canSendMail() {
+            let mailVC = MFMailComposeViewController()
+            mailVC.mailComposeDelegate = self
+            mailVC.setSubject("PD MEASUREMENTS")
+            mailVC.setMessageBody(emailBody, isHTML: true)
+            
+            present(mailVC, animated: true)
+        } else {
+            showEmailFailureAlert()
+        }
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        controller.dismiss(animated: true)
+    }
+    
+    private func showEmailFailureAlert() {
+        let ac = UIAlertController(title: "Email Error", message: "Couldn't send email message", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        present(ac, animated: true)
     }
 }
 

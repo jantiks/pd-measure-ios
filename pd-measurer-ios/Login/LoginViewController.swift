@@ -42,14 +42,6 @@ class LoginViewController: UIViewController {
         NotificationCenter.default.removeObserver(self)
     }
     
-    private func getEmailBody() -> String? {
-        if !textFieldsAreEmpty() {
-            // text fields are not empty , so that the texts can be unwraped implictly.
-            return Email(firstName: firstNameTF.text!, lastName: lastNameTF.text!, emailAddress: emailTF.text!).getEmailBody()
-        }
-        return nil
-    }
-    
     private func initKeyboardObservers() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -84,6 +76,16 @@ class LoginViewController: UIViewController {
         
         wrongLabel.isHidden = true
         return false
+    }
+    
+    private func getEmail() -> Email {
+        let email = Email()
+        
+        email.setFirstName(firstNameTF.text?.isEmpty == true ? nil : firstNameTF.text)
+        email.setLastName(lastNameTF.text?.isEmpty == true ? nil : lastNameTF.text)
+        email.setEmailAddress(emailTF.text?.isEmpty == true ? nil : emailTF.text)
+        
+        return email
     }
     
     @objc private func keyboardWillShow(notification: Notification) {
@@ -130,8 +132,7 @@ class LoginViewController: UIViewController {
             let vc = MeasurementsViewController.loadFromNib()
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true)
-//            sendEmail()
-//            print("EMAIL ACTION")
+            vc.setEmail(getEmail())
         }
     }
 }
@@ -141,34 +142,5 @@ extension LoginViewController: UITextFieldDelegate {
         textField.resignFirstResponder()
         
         return true
-    }
-}
-
-extension LoginViewController: MFMailComposeViewControllerDelegate {
-    func sendEmail() {
-        guard let emailBody = getEmailBody() else { return }
-        
-        if MFMailComposeViewController.canSendMail() {
-            let mailVC = MFMailComposeViewController()
-            mailVC.mailComposeDelegate = self
-            mailVC.setToRecipients(["tigran.arsenyan.2015@gmail.com"])
-            mailVC.setSubject("PD MEASUREMENTS")
-            mailVC.setMessageBody(emailBody, isHTML: true)
-            
-            present(mailVC, animated: true)
-        } else {
-            showEmailFailureAlert()
-        }
-    }
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true)
-    }
-    
-    private func showEmailFailureAlert() {
-        let ac = UIAlertController(title: "Email Error", message: "Couldn't send email message", preferredStyle: .alert)
-        ac.addAction(UIAlertAction(title: "OK", style: .default))
-        
-        present(ac, animated: true)
     }
 }
