@@ -63,9 +63,7 @@ class MeasurementsViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        sceneView.session.pause()
-        scanTimer?.invalidate()
-        deleteResultsTimer?.invalidate()
+        stopTracking()
     }
     
     func setEmail(_ email: Email) {
@@ -148,6 +146,15 @@ class MeasurementsViewController: UIViewController {
                 shButton.isHidden = false
                 applyButton.isHidden = false
             }
+        }
+    }
+    
+    @objc private func scanForPresentedController() {
+        if presentedViewController == nil, measurementType == .pd {
+            startTracking()
+            initTimers()
+        } else {
+            Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(scanForPresentedController), userInfo: nil, repeats: false)
         }
     }
     
@@ -264,6 +271,12 @@ class MeasurementsViewController: UIViewController {
         sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
     }
     
+    private func stopTracking() {
+        sceneView.session.pause()
+        scanTimer?.invalidate()
+        deleteResultsTimer?.invalidate()
+    }
+    
     private func showSHLayers() {
         guard let leftPupilPoint = leftPupilPoint, let rightPupilPoint = rightPupilPoint, let nosePoint = nosePoint  else { return }
 
@@ -274,7 +287,7 @@ class MeasurementsViewController: UIViewController {
         leftPath.addLines(between: [CGPoint(x: leftPupilPoint.x - 10, y: nosePoint.y + leftSHChange), CGPoint(x: leftPupilPoint.x + 10, y: nosePoint.y + leftSHChange)])
         
         leftSHLayer.path = leftPath
-        leftSHLayer.strokeColor = UIColor.red.cgColor
+        leftSHLayer.strokeColor = UIColor.white.cgColor
         leftSHLayer.lineWidth = 1.5
         leftSHLayer.opacity = 1
         
@@ -285,7 +298,7 @@ class MeasurementsViewController: UIViewController {
         rightPath.addLines(between: [CGPoint(x: rightPupilPoint.x - 10, y: nosePoint.y + rightSHChnage), CGPoint(x: rightPupilPoint.x + 10, y: nosePoint.y + rightSHChnage)])
         
         rightSHLayer.path = rightPath
-        rightSHLayer.strokeColor = UIColor.red.cgColor
+        rightSHLayer.strokeColor = UIColor.white.cgColor
         rightSHLayer.lineWidth = 1.5
         rightSHLayer.opacity = 1
     }
@@ -336,7 +349,8 @@ class MeasurementsViewController: UIViewController {
     
     @IBAction func shMeasureAction(_ sender: UIButton) {
         measurementType = .sh
-        sceneView.session.pause()
+        
+        stopTracking()
         
         shImageView.image = lastSnapshot
         [shImageView, leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = false })
@@ -347,7 +361,7 @@ class MeasurementsViewController: UIViewController {
     }
     
     @IBAction func applyAction(_ sender: UIButton) {
-        sceneView.session.pause()
+        stopTracking()
         
         email?.setFarPD(Float(getAveragePdResult()))
         email?.setNearPD(Float(getAveragePdResult() - 3))
@@ -356,6 +370,8 @@ class MeasurementsViewController: UIViewController {
         
         let ac = UIActivityViewController(activityItems: [email?.getEmailBody() as Any], applicationActivities: nil)
         present(ac, animated: true)
+        
+        Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(scanForPresentedController), userInfo: nil, repeats: false)
     }
     
     @IBAction func leftUpAction(_ sender: UIButton) {
