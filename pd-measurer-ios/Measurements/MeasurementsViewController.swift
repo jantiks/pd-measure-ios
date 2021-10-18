@@ -13,6 +13,7 @@ import MessageUI
 class MeasurementsViewController: UIViewController {
     
     @IBOutlet private weak var sceneView: ARSCNView!
+    @IBOutlet private weak var shScrollView: UIScrollView!
     @IBOutlet private weak var shImageView: UIImageView!
     @IBOutlet private weak var resultView: UIView!
     @IBOutlet private weak var farPdLabel: UILabel!
@@ -54,6 +55,10 @@ class MeasurementsViewController: UIViewController {
         startTracking()
         sceneView.delegate = self
         sceneView.session.delegate = self
+        shScrollView.delegate = self
+        shScrollView.minimumZoomScale = 1.0
+        shScrollView.maximumZoomScale = 3.0
+        shScrollView.bouncesZoom = false
         
         initTimers()
         initUi()
@@ -97,8 +102,8 @@ class MeasurementsViewController: UIViewController {
     }
     
     private func initUi() {
-        view.layer.addSublayer(leftSHLayer)
-        view.layer.addSublayer(rightSHLayer)
+        shImageView.layer.addSublayer(leftSHLayer)
+        shImageView.layer.addSublayer(rightSHLayer)
         
         resultView.layer.cornerRadius = 10
         resultView.alpha = 0.7
@@ -108,7 +113,7 @@ class MeasurementsViewController: UIViewController {
         rightButtons.layer.cornerRadius = 10
         
         loaderView.hidesWhenStopped = true
-        [shButton, applyButton, shImageView, leftButtons, rightButtons].forEach({ $0?.isHidden = true })
+        [shButton, applyButton, shScrollView, leftButtons, rightButtons].forEach({ $0?.isHidden = true })
     }
     
     private func setNodes(_ node: SCNNode) {
@@ -258,7 +263,6 @@ class MeasurementsViewController: UIViewController {
     }
     
     private func removeNodes() {
-        print("worked remove nodes")
         pupilLine?.removeFromParentNode()
     }
     
@@ -325,10 +329,25 @@ class MeasurementsViewController: UIViewController {
         return email?.getEmailBody()
     }
     
+    private func showSHAlert() {
+        let ac = UIAlertController(title: "SH Measurement", message: "You can adjust the bottom place of the glasses by the buttons located on left and right sides.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
+    private func showPDAlert() {
+        print("WORKED PD")
+        let ac = UIAlertController(title: "PD Measurement", message: "Please wait untill the app measures your pd.", preferredStyle: .alert)
+        ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        
+        present(ac, animated: true, completion: nil)
+    }
+    
     private func reset() {
         pdResults = []
         isFirstMeasurement = true
-        [shImageView, shButton ,leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = true })
+        [shScrollView, shButton ,leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = true })
         pupilLine?.isHidden = true
         measurementType = .pd
         
@@ -351,12 +370,13 @@ class MeasurementsViewController: UIViewController {
     }
     
     @IBAction func shMeasureAction(_ sender: UIButton) {
+        showSHAlert()
         measurementType = .sh
         
         stopTracking()
         
         shImageView.image = lastSnapshot
-        [shImageView, leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = false })
+        [shScrollView, leftButtons, rightButtons, applyButton].forEach({ $0?.isHidden = false })
         removeNodes()
         shButton.isHidden = true
         showSHLayers()
@@ -434,7 +454,6 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
                   didUpdate node: SCNNode,
                   for anchor: ARAnchor) {
         guard let faceAnchor = anchor as? ARFaceAnchor else { return }
-        print("WORKED RENDERE NODES")
 
         blendShapes = faceAnchor.blendShapes
         
@@ -466,6 +485,12 @@ extension MeasurementsViewController: ARSCNViewDelegate, ARSessionDelegate {
         
         pupilLine?.buildLineInTwoPointsWithRotation(from: faceAnchor.leftEyeTransform.position(), to: faceAnchor.rightEyeTransform.position(), radius: 0.0004, diffuse: UIColor.white)
         zPositionDiff = CGFloat(abs(faceAnchor.leftEyeTransform.position().z - faceAnchor.rightEyeTransform.position().z)) * 1000
+    }
+}
+
+extension MeasurementsViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return shImageView
     }
 }
 

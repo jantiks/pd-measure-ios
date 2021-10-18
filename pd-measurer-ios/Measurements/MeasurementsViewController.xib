@@ -28,6 +28,7 @@
                 <outlet property="sceneView" destination="RnH-W0-4cp" id="Jfe-6D-kjb"/>
                 <outlet property="shButton" destination="aSd-RQ-RWC" id="JMe-lR-7LT"/>
                 <outlet property="shImageView" destination="QhF-UC-VSt" id="yUB-Q7-ml5"/>
+                <outlet property="shScrollView" destination="X9h-sx-zAA" id="X99-dM-VJg"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -39,9 +40,23 @@
                 <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RnH-W0-4cp">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                 </arscnView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QhF-UC-VSt" userLabel="sh view">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X9h-sx-zAA" userLabel="sh view">
                     <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                </imageView>
+                    <subviews>
+                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="QhF-UC-VSt" userLabel="sh view">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="QhF-UC-VSt" firstAttribute="width" secondItem="e2G-ce-dWX" secondAttribute="width" id="1wZ-I7-hjp"/>
+                        <constraint firstItem="QhF-UC-VSt" firstAttribute="top" secondItem="yxX-3x-owP" secondAttribute="top" id="P30-3L-yMw"/>
+                        <constraint firstItem="QhF-UC-VSt" firstAttribute="bottom" secondItem="yxX-3x-owP" secondAttribute="bottom" id="VkU-z9-8Fq"/>
+                        <constraint firstItem="QhF-UC-VSt" firstAttribute="leading" secondItem="yxX-3x-owP" secondAttribute="leading" id="nnU-lF-yw1"/>
+                        <constraint firstItem="QhF-UC-VSt" firstAttribute="trailing" secondItem="yxX-3x-owP" secondAttribute="trailing" id="tcB-yF-Fkm"/>
+                    </constraints>
+                    <viewLayoutGuide key="contentLayoutGuide" id="yxX-3x-owP"/>
+                    <viewLayoutGuide key="frameLayoutGuide" id="e2G-ce-dWX"/>
+                </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="83y-cY-Vtw" userLabel="close button">
                     <rect key="frame" x="359.5" y="54" width="44.5" height="31"/>
                     <state key="normal" title="Button"/>
@@ -213,23 +228,24 @@
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
+                <constraint firstItem="QhF-UC-VSt" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="height" id="0GS-GX-Qk7"/>
+                <constraint firstAttribute="trailing" secondItem="X9h-sx-zAA" secondAttribute="trailing" id="85K-nb-jKQ"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="AYq-Yu-Y0R"/>
                 <constraint firstItem="GvN-Ld-IeY" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="BCz-qK-0Jb"/>
-                <constraint firstItem="QhF-UC-VSt" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="BKW-hj-atb"/>
                 <constraint firstItem="GvN-Ld-IeY" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="DWM-RP-zZv"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="LKN-MQ-vsC" secondAttribute="bottom" constant="25" id="Dqs-NS-Cx1"/>
-                <constraint firstItem="QhF-UC-VSt" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Enf-0C-VJJ"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="GFu-zR-Hfd"/>
                 <constraint firstItem="3pz-p2-gJq" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="HOp-T4-zYA"/>
                 <constraint firstAttribute="bottom" secondItem="RnH-W0-4cp" secondAttribute="bottom" id="PGn-Ha-1Jc"/>
+                <constraint firstItem="X9h-sx-zAA" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Pgd-Ke-qAI"/>
+                <constraint firstItem="X9h-sx-zAA" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Pwn-cC-Nyh"/>
                 <constraint firstItem="RnH-W0-4cp" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Wkb-Cc-Uwb"/>
-                <constraint firstItem="QhF-UC-VSt" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="ZRf-hX-PNl"/>
-                <constraint firstAttribute="bottom" secondItem="QhF-UC-VSt" secondAttribute="bottom" id="aU8-bN-vzi"/>
                 <constraint firstItem="83y-cY-Vtw" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="adh-gW-89i"/>
                 <constraint firstItem="jp2-hc-R2R" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="ocC-4e-C5S"/>
                 <constraint firstItem="RxU-i3-Pla" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="10" id="pBF-N8-gn7"/>
                 <constraint firstItem="LKN-MQ-vsC" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="rt1-tR-cjc"/>
                 <constraint firstItem="3pz-p2-gJq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="10" id="u1M-ok-8SO"/>
+                <constraint firstAttribute="bottom" secondItem="X9h-sx-zAA" secondAttribute="bottom" id="v8E-MQ-CAj"/>
                 <constraint firstAttribute="trailing" secondItem="jp2-hc-R2R" secondAttribute="trailing" constant="10" id="vdi-OB-bMP"/>
                 <constraint firstItem="RxU-i3-Pla" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="10" id="xCO-BW-FpN"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="83y-cY-Vtw" secondAttribute="trailing" constant="10" id="zlx-7K-62y"/>
