@@ -63,9 +63,7 @@ class LoginViewController: UIViewController {
     /*
      checking if textfields are empty , if so then make the wrong label to appear
      */
-    private func textFieldsAreEmpty() -> Bool {
-        return false
-        
+    private func textFieldsAreEmpty() -> Bool {        
         if firstNameTF.text?.isEmpty == true ||
             lastNameTF.text?.isEmpty == true ||
             emailTF.text?.isEmpty == true {
